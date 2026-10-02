@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f0e8">
+    <title>Recently Asked Interview Questions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --interview-ink: #20382f;
+            --interview-muted: #63716a;
+            --interview-paper: #f4f0e8;
+            --interview-line: #e4dfd5;
+            --interview-accent: #c77a56;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--interview-ink);
+            background: var(--interview-paper);
+        }
+
+        .interview-main {
+            width: min(1120px, calc(100% - 2rem));
+            margin: 7.25rem auto 4rem;
+        }
+
+        .interview-heading {
+            max-width: 720px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+
+        .interview-kicker {
+            color: var(--interview-accent);
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+
+        .interview-heading h1 {
+            margin: .65rem 0;
+            color: var(--interview-ink);
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 750;
+            letter-spacing: -.045em;
+        }
+
+        .interview-heading p,
+        .question-meta,
+        .form-hint {
+            color: var(--interview-muted);
+        }
+
+        .interview-layout {
+            display: grid;
+            grid-template-columns: minmax(280px, .82fr) minmax(0, 1.35fr);
+            align-items: start;
+            gap: 1.5rem;
+        }
+
+        .interview-panel,
+        .question-card {
+            border: 1px solid var(--interview-line);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .82);
+            box-shadow: 0 12px 35px rgba(32, 56, 47, .06);
+        }
+
+        .interview-panel {
+            position: sticky;
+            top: 6rem;
+            padding: 1.5rem;
+        }
+
+        .interview-panel h2,
+        .question-card h3 {
+            color: var(--interview-ink);
+            font-weight: 700;
+        }
+
+        .interview-panel .form-control {
+            border-color: var(--interview-line);
+            border-radius: 10px;
+            padding: .7rem .8rem;
+        }
+
+        .interview-panel textarea.form-control {
+            min-height: 125px;
+        }
+
+        .interview-panel .btn-primary {
+            width: 100%;
+            border-color: var(--interview-ink);
+            border-radius: 10px;
+            background: var(--interview-ink);
+            padding: .75rem 1rem;
+            font-weight: 650;
+        }
+
+        .question-list-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: .25rem 0 1rem;
+        }
+
+        .question-list-header h2 {
+            margin: 0;
+            color: var(--interview-ink);
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        #questionSearch {
+            max-width: 240px;
+            border-color: var(--interview-line);
+            border-radius: 10px;
+        }
+
+        .question-card {
+            margin-bottom: 1rem;
+            padding: 1.35rem;
+            scroll-margin-top: 6.5rem;
+        }
+
+        .question-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .45rem .75rem;
+            margin-bottom: .8rem;
+            font-size: .84rem;
+        }
+
+        .question-share {
+            margin-left: auto;
+            border: 1px solid var(--interview-line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--interview-ink);
+            padding: .35rem .75rem;
+            font-size: .82rem;
+            font-weight: 650;
+        }
+
+        .question-share:hover,
+        .question-share:focus-visible {
+            border-color: var(--interview-ink);
+            background: var(--interview-ink);
+            color: #fff;
+        }
+
+        .question-delete,
+        .question-delete-toggle {
+            border: 1px solid #ead3ce;
+            border-radius: 999px;
+            background: #fff;
+            color: #963e32;
+            padding: .35rem .75rem;
+            font-size: .82rem;
+            font-weight: 650;
+        }
+
+        .question-delete:hover,
+        .question-delete:focus-visible,
+        .question-delete-toggle:hover,
+        .question-delete-toggle:focus-visible {
+            border-color: #963e32;
+            background: #963e32;
+            color: #fff;
+        }
+
+        .delete-confirmation {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .65rem;
+            margin-top: .8rem;
+            border: 1px solid #ead3ce;
+            border-radius: 12px;
+            background: #fff8f6;
+            padding: .75rem 1rem;
+            color: #713c34;
+            font-size: .9rem;
+        }
+
+        .delete-confirmation[hidden] {
+            display: none;
+        }
+
+        .delete-confirmation p {
+            flex: 1;
+            margin: 0;
+        }
+
+        .delete-confirmation form {
+            margin: 0;
+        }
+
+        .cancel-delete {
+            border: 1px solid var(--interview-line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--interview-ink);
+            padding: .35rem .75rem;
+        }
+
+        .question-label {
+            margin: 1.1rem 0 .35rem;
+            color: var(--interview-accent);
+            font-size: .75rem;
+            font-weight: 750;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .question-card h3 {
+            font-size: 1.16rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .question-answer {
+            margin: 0;
+            color: #394840;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-state {
+            border: 1px dashed #cfc8bc;
+            border-radius: 16px;
+            padding: 2rem 1.25rem;
+            color: var(--interview-muted);
+            text-align: center;
+        }
+
+        .alert {
+            border-radius: 12px;
+        }
+
+        @media (max-width: 800px) {
+            .interview-main {
+                margin-top: 6rem;
+            }
+
+            .interview-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .interview-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .question-list-header {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            #questionSearch {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top site-nav" aria-label="Main navigation">
+    <div class="container nav-shell">
+        <a class="navbar-brand brand-mark" href="/">Himanshu Singh</a>
+        <a class="nav-link" href="/">Back to portfolio</a>
+    </div>
+</nav>
+
+<main class="interview-main">
+    <header class="interview-heading">
+        <div class="interview-kicker">Community interview notes</div>
+        <h1>Recently asked.<br>Ready to practice.</h1>
+        <p>Share questions you have been asked and the answer or approach that helped. Browse recent contributions from other candidates.</p>
+    </header>
+
+    <div th:if="${successMessage}" class="alert alert-success" role="status" th:text="${successMessage}"></div>
+
+    <div class="interview-layout">
+        <section class="interview-panel" aria-labelledby="shareQuestionHeading">
+            <h2 id="shareQuestionHeading" class="h4 mb-1">Add an interview question</h2>
+            <p class="form-hint small mb-4">Submissions are public, and any visitor can delete any entry. Leave out personal details and confidential interview material.</p>
+
+            <form th:action="@{/interview-questions}" th:object="${questionForm}" method="post">
+                <div class="mb-3">
+                    <label for="company" class="form-label">Company <span class="text-muted">(optional)</span></label>
+                    <input id="company" class="form-control" type="text" th:field="*{company}" maxlength="120" autocomplete="organization">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role or interview round <span class="text-muted">(optional)</span></label>
+                    <input id="role" class="form-control" type="text" th:field="*{role}" maxlength="120" placeholder="e.g. Backend Engineer, system design">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="askedOn" class="form-label">Date asked <span class="text-muted">(optional)</span></label>
+                    <input id="askedOn" class="form-control" type="date" th:field="*{askedOn}">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('askedOn')}" th:errors="*{askedOn}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="question" class="form-label">Interview question</label>
+                    <textarea id="question" class="form-control" th:field="*{question}" maxlength="2000" required
+                              placeholder="What were you asked?"></textarea>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('question')}" th:errors="*{question}"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="answer" class="form-label">Answer or approach</label>
+                    <textarea id="answer" class="form-control" th:field="*{answer}" maxlength="8000" required
+                              placeholder="Write the answer, key points, or approach you used."></textarea>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('answer')}" th:errors="*{answer}"></div>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Share question and answer</button>
+            </form>
+        </section>
+
+        <section aria-labelledby="recentQuestionsHeading">
+            <div class="question-list-header">
+                <h2 id="recentQuestionsHeading">Recent questions</h2>
+                <input id="questionSearch" class="form-control" type="search" placeholder="Search questions" aria-label="Search interview questions">
+            </div>
+
+            <div th:if="${#lists.isEmpty(questions)}" id="emptyQuestions" class="empty-state">
+                No questions have been shared yet. Add the first one.
+            </div>
+
+            <article class="question-card" th:each="item : ${questions}" th:id="|question-${item.id}|">
+                <div class="question-meta">
+                    <span th:if="${item.company != null}" th:text="${item.company}"></span>
+                    <span th:if="${item.role != null}" th:text="${item.role}"></span>
+                    <span th:if="${item.askedOn != null}">
+                        Asked <time th:datetime="${item.askedOn}" th:text="${item.askedOn}"></time>
+                    </span>
+                    <span th:if="${item.company == null and item.role == null and item.askedOn == null}">Community submission</span>
+                    <button class="question-share" type="button" aria-label="Share this interview question and answer">
+                        Share Q&amp;A
+                    </button>
+                    <button class="question-delete-toggle" type="button" aria-label="Delete this interview question and answer"
+                            aria-expanded="false"
+                            th:attr="aria-controls=|delete-confirm-${item.id}|">Delete</button>
+                </div>
+                <div class="delete-confirmation" th:id="|delete-confirm-${item.id}|" hidden>
+                    <p>Delete this post for everyone? This cannot be undone.</p>
+                    <form th:action="@{/interview-questions/{id}/delete(id=${item.id})}" method="post">
+                        <button class="question-delete" type="submit">Confirm delete</button>
+                    </form>
+                    <button class="cancel-delete" type="button">Cancel</button>
+                </div>
+                <div class="question-label">Question</div>
+                <h3 th:text="${item.question}"></h3>
+                <div class="question-label">Answer / approach</div>
+                <p class="question-answer" th:text="${item.answer}"></p>
+            </article>
+
+            <div id="noSearchResults" class="empty-state" hidden>No questions match your search.</div>
+        </section>
+    </div>
+</main>
+
+<p id="shareStatus" class="visually-hidden" aria-live="polite"></p>
+<script>
+    const questionSearch = document.getElementById("questionSearch");
+    const questionCards = Array.from(document.querySelectorAll(".question-card"));
+    const noSearchResults = document.getElementById("noSearchResults");
+    const emptyQuestions = document.getElementById("emptyQuestions");
+    const shareStatus = document.getElementById("shareStatus");
+
+    questionSearch.addEventListener("input", () => {
+        const query = questionSearch.value.trim().toLocaleLowerCase();
+        let visibleCount = 0;
+
+        questionCards.forEach(card => {
+            const matches = card.textContent.toLocaleLowerCase().includes(query);
+            card.hidden = !matches;
+            if (matches) visibleCount++;
+        });
+
+        noSearchResults.hidden = questionCards.length === 0 || visibleCount > 0;
+        if (emptyQuestions) emptyQuestions.hidden = query.length > 0;
+    });
+
+    async function copyShareText(text) {
+        if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+            return;
+        }
+
+        const copyField = document.createElement("textarea");
+        copyField.value = text;
+        copyField.setAttribute("readonly", "");
+        copyField.style.position = "fixed";
+        copyField.style.opacity = "0";
+        document.body.appendChild(copyField);
+        copyField.select();
+        const copied = document.execCommand("copy");
+        copyField.remove();
+        if (!copied) throw new Error("Clipboard access is unavailable.");
+    }
+
+    document.querySelectorAll(".question-share").forEach(button => {
+        button.addEventListener("click", async () => {
+            const card = button.closest(".question-card");
+            const question = card.querySelector("h3").textContent.trim();
+            const answer = card.querySelector(".question-answer").textContent.trim();
+            const shareUrl = new URL(window.location.href);
+            shareUrl.hash = card.id;
+            const shareText = `${question}\n\nAnswer / approach:\n${answer}\n\n${shareUrl.toString()}`;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: "Interview question and answer",
+                        text: `${question}\n\nAnswer / approach:\n${answer}`,
+                        url: shareUrl.toString()
+                    });
+                    shareStatus.textContent = "Share options opened.";
+                } catch (error) {
+                    if (error.name !== "AbortError") {
+                        try {
+                            await copyShareText(shareText);
+                            shareStatus.textContent = "Question, answer, and link copied.";
+                        } catch {
+                            window.prompt("Copy the question, answer, and link to share:", shareText);
+                        }
+                    }
+                }
+                return;
+            }
+
+            try {
+                await copyShareText(shareText);
+                shareStatus.textContent = "Question, answer, and link copied.";
+                button.textContent = "Copied";
+                setTimeout(() => button.textContent = "Share Q&A", 1800);
+            } catch {
+                window.prompt("Copy the question, answer, and link to share:", shareText);
+            }
+        });
+    });
+
+    document.querySelectorAll(".question-delete-toggle").forEach(button => {
+        button.addEventListener("click", () => {
+            const confirmation = button.closest(".question-card").querySelector(".delete-confirmation");
+            confirmation.hidden = false;
+            button.setAttribute("aria-expanded", "true");
+            confirmation.querySelector(".cancel-delete").focus();
+        });
+    });
+
+    document.querySelectorAll(".cancel-delete").forEach(button => {
+        button.addEventListener("click", () => {
+            const confirmation = button.closest(".delete-confirmation");
+            confirmation.hidden = true;
+            confirmation.closest(".question-card")
+                .querySelector(".question-delete-toggle")
+                .setAttribute("aria-expanded", "false");
+        });
+    });
+</script>
+</body>
+</html>

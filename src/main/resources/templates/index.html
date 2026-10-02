@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="dmhSLL9YBB-jD2DashN9I-falZOwe5G6Fg8p6_ap-FY" />
+    <meta name="theme-color" content="#f4f0e8">
+    <title th:text="${profile?.name} + ' - Portfolio'">Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <a class="skip-link" href="#home">Skip to main content</a>
+
+    <nav class="navbar navbar-expand-lg fixed-top site-nav" aria-label="Main navigation">
+        <div class="container nav-shell">
+            <a class="navbar-brand brand-mark" href="#home" th:text="${profile?.name}">Himanshu Singh</a>
+            <button class="navbar-toggler nav-toggle" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blogs">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/certifications">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/notes/notepad">Notepad</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/interview-questions">Interview Q&amp;A</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link nav-playground" href="/judge0">Playground <span aria-hidden="true">↗</span></a></li>
+                    <li class="nav-item theme-item">
+                        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme">
+                            <i class="fas fa-moon" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero-section">
+            <div class="hero-grid" aria-hidden="true"></div>
+            <div class="container hero-container">
+                <div class="hero-copy" data-aos="fade-up">
+                    <p class="eyebrow"><span class="eyebrow-line"></span> Java · Backend Engineering</p>
+                    <h1><span class="hero-intro">Hello, I’m</span><br><span th:text="${profile?.name}">Himanshu Singh</span><span class="hero-period">.</span></h1>
+                    <p class="hero-role"><span id="typed-text">Java Backend Engineer</span><span class="typing-caret" aria-hidden="true"></span></p>
+                    <p class="hero-description">I build server-side software with a focus on clear architecture, useful APIs, and the details that make systems dependable.</p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#projects">Explore my work <span aria-hidden="true">↘</span></a>
+                        <a class="button button-quiet" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+                    </div>
+                    <div class="hero-socials" aria-label="Profile links">
+                        <span class="social-caption">Find me on</span>
+                        <a th:href="${profile?.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+                            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                        </a>
+                        <a th:href="${profile?.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                        </a>
+                        <a th:href="'mailto:' + ${profile?.email}" aria-label="Send email">
+                            <i class="far fa-envelope" aria-hidden="true"></i>
+                        </a>
+                        <a th:href="'tel:' + ${profile?.phone}" aria-label="Call">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-art" data-aos="fade-left" data-aos-delay="150">
+                    <div class="art-index"><span>01</span><span>PERSONAL PORTFOLIO</span></div>
+                    <div class="portrait-frame">
+                        <div class="portrait-backdrop"></div>
+                        <img th:src="@{/images/profile.jpg}" alt="Portrait of Himanshu Singh" class="profile-img">
+                        <div class="portrait-stamp" aria-hidden="true"><span>HS</span><i class="fas fa-arrow-up-right-from-square"></i></div>
+                    </div>
+                    <div class="art-note">
+                        <span class="note-rule"></span>
+                        <span>Thoughtful systems.<br>Practical engineering.</span>
+                    </div>
+                    <span class="art-coordinate" aria-hidden="true">JAVA / SPRING / API</span>
+                </div>
+                <a class="scroll-cue" href="#about"><span>Scroll to explore</span><i class="fas fa-arrow-down" aria-hidden="true"></i></a>
+            </div>
+        </section>
+
+        <section id="about" class="section section-about">
+            <div class="container section-container">
+                <div class="section-heading-row" data-aos="fade-up">
+                    <p class="section-kicker">A little about me <span>01 — 06</span></p>
+                    <h2>Engineering is<br><em>in the details.</em></h2>
+                </div>
+                <div class="about-layout" data-aos="fade-up" data-aos-delay="100">
+                    <div class="about-statement">
+                        <span class="large-quote" aria-hidden="true">“</span>
+                        <p class="about-copy" th:text="${profile?.aboutMe}"></p>
+                    </div>
+                    <div class="about-aside">
+                        <div class="contact-facts">
+                            <div class="fact-row"><span>Email</span><a th:href="'mailto:' + ${profile?.email}" th:text="${profile?.email}"></a></div>
+                            <div class="fact-row"><span>Phone</span><a th:href="'tel:' + ${profile?.phone}" th:text="${profile?.phone}"></a></div>
+                            <div class="fact-row"><span>Location</span><span th:text="${profile?.city}"></span></div>
+                        </div>
+                        <div class="education-block">
+                            <p class="mini-label">Education</p>
+                            <div th:each="edu : ${education}" class="education-entry">
+                                <strong th:text="${edu.degree}"></strong>
+                                <span th:text="${edu.university}"></span>
+                                <small th:text="${edu.year}"></small>
+                            </div>
+                        </div>
+                        <div class="resume-actions">
+                            <a href="/resume/download" class="button button-primary"><i class="fas fa-download" aria-hidden="true"></i> Download resume</a>
+                            <a href="/resume/preview" target="_blank" rel="noopener noreferrer" class="resume-preview"><i class="far fa-eye" aria-hidden="true"></i> Preview</a>
+                            <span class="resume-updated" th:if="${resume}"
+                                  th:text="'Last Updated: ' + ${#temporals.format(resume.updatedAt, 'MMM dd, yyyy')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section section-experience">
+            <div class="container section-container">
+                <div class="section-heading-row" data-aos="fade-up">
+                    <p class="section-kicker">Where I’ve worked <span>02 — 06</span></p>
+                    <h2>Experience, built<br><em>over time.</em></h2>
+                </div>
+                <div class="experience-list" data-aos="fade-up">
+                    <div th:each="exp, iterStat : ${experiences}" class="experience-card">
+                        <div class="experience-header" th:id="'heading' + ${iterStat.index}">
+                            <h3 class="mb-0">
+                                <button class="experience-btn" type="button" data-bs-toggle="collapse"
+                                        th:attr="data-bs-target='#collapse' + ${iterStat.index}, aria-controls='collapse' + ${iterStat.index}, aria-expanded=${iterStat.first}">
+                                    <span class="experience-number" th:text="${iterStat.count}">01</span>
+                                    <span class="experience-title">
+                                        <strong class="role-text" th:text="${exp.role}"></strong>
+                                        <span class="company-text" th:text="${exp.company}"></span>
+                                    </span>
+                                    <span class="duration-text"
+                                          th:text="${#temporals.format(exp.startDate, 'MMM yyyy')} + ' — ' + (${exp.endDate} != null ? ${#temporals.format(exp.endDate, 'MMM yyyy')} : 'Present')"></span>
+                                    <span class="experience-chevron" aria-hidden="true"><i class="fas fa-plus"></i></span>
+                                </button>
+                            </h3>
+                        </div>
+                        <div th:id="'collapse' + ${iterStat.index}" class="collapse" th:classappend="${iterStat.first} ? 'show' : ''"
+                             th:attr="aria-labelledby='heading' + ${iterStat.index}">
+                            <div class="experience-body">
+                                <p class="experience-desc" th:text="${exp.description}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section section-skills">
+            <div class="container section-container">
+                <div class="section-heading-row" data-aos="fade-up">
+                    <p class="section-kicker">Tools of the trade <span>03 — 06</span></p>
+                    <h2>Technology is a tool.<br><em>Know it well.</em></h2>
+                </div>
+                <div class="skills-grid" data-aos="fade-up" data-aos-delay="100">
+                    <div th:each="entry : ${skillsByCategory}" class="skill-category-card">
+                        <div class="skill-category-heading">
+                            <span class="skill-mark" aria-hidden="true"></span>
+                            <h3 th:text="${entry.key}"></h3>
+                        </div>
+                        <div th:each="skill : ${entry.value}" class="skill-item">
+                            <div class="skill-label">
+                                <span th:text="${skill.skillName}"></span>
+                                <span class="skill-level" th:text="${skill.level} + '%'"></span>
+                            </div>
+                            <div class="progress skill-progress" role="progressbar"
+                                 th:attr="aria-label=${skill.skillName}, aria-valuenow=${skill.level}"
+                                 aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" th:style="'width: ' + ${skill.level} + '%'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section section-projects">
+            <div class="container section-container">
+                <div class="section-heading-row project-heading" data-aos="fade-up">
+                    <div>
+                        <p class="section-kicker">Selected work <span>04 — 06</span></p>
+                        <h2>Problems worth<br><em>solving.</em></h2>
+                    </div>
+                    <p class="section-intro">A closer look at projects, the ideas behind them, and the technology used to bring them to life.</p>
+                </div>
+                <div class="projects-list" data-aos="fade-up">
+                    <article th:each="project, iterStat : ${projects}" class="project-card">
+                        <div class="project-index" th:text="${iterStat.count}">01</div>
+                        <div class="project-content">
+                            <div class="project-title-row">
+                                <h3 class="role-text" th:text="${project.title}"></h3>
+                                <a th:if="${project.githubLink}" th:href="${project.githubLink}" target="_blank" rel="noopener noreferrer"
+                                   class="project-link" aria-label="View project on GitHub">GitHub <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                            </div>
+                            <p class="experience-desc" th:text="${project.description}"></p>
+                            <p class="tech-stack"><span>Built with</span> <span th:text="${project.techStack}"></span></p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-more" aria-label="More from Himanshu">
+            <div class="container more-links">
+                <div>
+                    <p class="section-kicker">Beyond the portfolio <span>05 — 06</span></p>
+                    <h2>Keep exploring.</h2>
+                </div>
+                <div class="more-link-list">
+                    <a href="/certifications"><span>Certifications</span><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                    <a href="/blogs"><span>Writing &amp; blog</span><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                    <a href="/judge0"><span>Code playground</span><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section section-contact">
+            <div class="container section-container">
+                <div class="contact-heading" data-aos="fade-up">
+                    <p class="section-kicker">Have something in mind? <span>06 — 06</span></p>
+                    <h2>Let’s make<br><em>it happen.</em></h2>
+                    <p>For a conversation, a collaboration, or just to say hello.</p>
+                </div>
+                <div class="contact-grid" data-aos="fade-up" data-aos-delay="100">
+                    <div class="contact-panel">
+                        <span class="form-index">01 / MESSAGE</span>
+                        <h3>Send a message</h3>
+                        <form id="contactForm">
+                            <div class="form-field">
+                                <label for="contactName">Your name</label>
+                                <input id="contactName" type="text" class="form-control" name="name" placeholder="Name" autocomplete="name" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="contactEmail">Email address</label>
+                                <input id="contactEmail" type="email" class="form-control" name="email" placeholder="you@example.com" autocomplete="email" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="contactMessage">What’s on your mind?</label>
+                                <textarea id="contactMessage" class="form-control" name="message" rows="4" placeholder="A few details to get us started…" required></textarea>
+                            </div>
+                            <button type="submit" class="button button-primary form-submit">Send message <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                            <p class="form-status" id="contactStatus" role="status" aria-live="polite"></p>
+                        </form>
+                    </div>
+                    <div class="contact-panel meeting-panel">
+                        <span class="form-index">02 / MEETING</span>
+                        <h3>Request a meeting</h3>
+                        <form id="meetingForm">
+                            <div class="form-field">
+                                <label for="meetingName">Your name</label>
+                                <input id="meetingName" type="text" class="form-control" name="name" placeholder="Name" autocomplete="name" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="meetingEmail">Email address</label>
+                                <input id="meetingEmail" type="email" class="form-control" name="email" placeholder="you@example.com" autocomplete="email" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="meetingPhone">Phone <span>(optional)</span></label>
+                                <input id="meetingPhone" type="tel" class="form-control" name="phone" placeholder="Phone number" autocomplete="tel">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label for="meetingDatetime">Preferred date &amp; time</label>
+                                    <input id="meetingDatetime" type="datetime-local" class="form-control" name="preferredDatetime" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="meetingType">Meeting type</label>
+                                    <select id="meetingType" class="form-control" name="type" required>
+                                        <option value="">Choose a format</option>
+                                        <option value="Zoom">Zoom</option>
+                                        <option value="Microsoft Teams">Microsoft Teams</option>
+                                        <option value="Call">Phone Call</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label for="meetingMessage">Anything else? <span>(optional)</span></label>
+                                <textarea id="meetingMessage" class="form-control" name="message" rows="2" placeholder="Add a note"></textarea>
+                            </div>
+                            <button type="submit" class="button button-primary form-submit">Request meeting <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                            <p class="form-status" id="meetingStatus" role="status" aria-live="polite"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="chatBox" class="chat-box collapsed">
+        <button class="chat-header" id="chatToggle" type="button" aria-expanded="false" aria-controls="chatPanel">
+            <span><span class="chat-status-dot"></span> Ask me anything</span>
+            <i class="fas fa-chevron-down" id="chatIcon" aria-hidden="true"></i>
+        </button>
+        <div class="chat-panel" id="chatPanel">
+            <div class="chat-body" id="chatBody" role="log" aria-live="polite" aria-label="Conversation"></div>
+            <div class="chat-input-wrapper">
+                <label class="visually-hidden" for="chatInput">Type your question or describe an image</label>
+                <input type="text" id="chatInput" placeholder="Ask a question…" autocomplete="off">
+                <button id="chatSend" type="button" aria-label="Send message">
+                    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <a class="footer-name" href="#home" th:text="${profile?.name}">Himanshu Singh</a>
+            <p>Java backend engineering</p>
+            <a href="#home" class="back-to-top">Back to top <i class="fas fa-arrow-up" aria-hidden="true"></i></a>
+            <span class="copyright">&copy; 2024 <span th:text="${profile?.name}">Himanshu Singh</span>. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
